@@ -21,6 +21,7 @@ export type LoggedInUser = {
   canEditProject: (project: any) => boolean;
   canEditUpdate: (update: any) => boolean;
   canSeeAdminPanel: (collective: any) => boolean;
+  hasEarlyAccess: (earlyAccessFeature: string) => boolean;
   email: string;
   hasPreviewFeatureEnabled: (featureKey: string) => boolean;
   getAvailablePreviewFeatures: () => PreviewFeature[];

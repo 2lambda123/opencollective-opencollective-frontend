@@ -33,6 +33,8 @@ export type TextProps = ColorProps &
   WordBreakProps &
   CursorProps & {
     truncateOverflow?: boolean;
+  } & {
+    textDecoration?: string;
   };
 
 export const P = styled.p.attrs<TextProps>(props => ({
