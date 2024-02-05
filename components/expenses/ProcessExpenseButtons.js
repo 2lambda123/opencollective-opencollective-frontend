@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
 import { InfoCircle } from '@styled-icons/boxicons-regular/InfoCircle';
@@ -26,6 +26,7 @@ import DeleteExpenseButton from './DeleteExpenseButton';
 import MarkExpenseAsUnpaidButton from './MarkExpenseAsUnpaidButton';
 import PayExpenseButton from './PayExpenseButton';
 import { SecurityChecksButton } from './SecurityChecksModal';
+import { withUser } from '../UserProvider';
 
 const processExpenseMutation = gql`
   mutation ProcessExpense(
@@ -139,6 +140,7 @@ const ProcessExpenseButtons = ({
   displaySecurityChecks,
   isViewingExpenseInHostContext,
   disabled,
+  LoggedInUser,
 }) => {
   const [confirmProcessExpenseAction, setConfirmProcessExpenseAction] = React.useState();
   const [showApproveExpenseModal, setShowApproveExpenseModal] = React.useState(false);
@@ -243,6 +245,17 @@ const ProcessExpenseButtons = ({
           buttonStyle="dangerSecondary"
           data-cy="spam-button"
           onClick={() => {
+            const isSubmitter = expense.createdByAccount.legacyId === LoggedInUser?.CollectiveId;
+
+            if (isSubmitter) {
+              toast({
+                variant: 'error',
+                message: "You can't mark your own expenses as spam",
+              });
+
+              return;
+            }
+
             if (confirm(intl.formatMessage(messages.markAsSpamWarning))) {
               triggerAction('MARK_AS_SPAM');
             }
@@ -398,4 +411,4 @@ ProcessExpenseButtons.defaultProps = {
   isViewingExpenseInHostContext: false,
 };
 
-export default ProcessExpenseButtons;
+export default withUser(ProcessExpenseButtons);
