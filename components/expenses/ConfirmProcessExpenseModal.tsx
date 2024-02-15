@@ -15,7 +15,7 @@ import { toast } from '../ui/useToast';
 
 const messages = defineMessages({
   reasonPlaceholder: {
-    defaultMessage: 'e.g. Same expense was submitted twice.',
+    defaultMessage: 'e.g. We never worked with this person.',
   },
   REQUEST_RE_APPROVAL_TITLE: {
     id: 'expense.requestReApproval.btn',
