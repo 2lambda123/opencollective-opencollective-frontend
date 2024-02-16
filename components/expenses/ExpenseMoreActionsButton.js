@@ -11,7 +11,7 @@ import { Pause as PauseIcon } from '@styled-icons/feather/Pause';
 import { Play as PlayIcon } from '@styled-icons/feather/Play';
 import { Trash2 as IconTrash } from '@styled-icons/feather/Trash2';
 import { useRouter } from 'next/router';
-import { defineMessage, FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import styled from 'styled-components';
 import { margin } from 'styled-system';
 
@@ -97,11 +97,6 @@ const ExpenseMoreActionsButton = ({
     onModalToggle?.(isOpen);
   };
 
-  const spamNotAllowedMessage = defineMessage({
-    id: 'expense.spam.notAllowed',
-    defaultMessage: "You can't mark your own expenses as spam",
-  });
-
   return (
     <React.Fragment>
       <PopupMenu
@@ -134,7 +129,10 @@ const ExpenseMoreActionsButton = ({
                   if (isSubmitter) {
                     toast({
                       variant: 'error',
-                      message: intl.formatMessage(spamNotAllowedMessage),
+                      message: intl.formatMessage({
+                        id: 'expense.spam.notAllowed',
+                        defaultMessage: "You can't mark your own expenses as spam",
+                      }),
                     });
 
                     return;
