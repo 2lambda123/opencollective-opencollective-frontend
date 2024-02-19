@@ -18,6 +18,7 @@ import Link from '../Link';
 import StyledButton from '../StyledButton';
 import StyledTooltip from '../StyledTooltip';
 import { useToast } from '../ui/useToast';
+import { withUser } from '../UserProvider';
 
 import { expensePageExpenseFieldsFragment } from './graphql/fragments';
 import ApproveExpenseModal from './ApproveExpenseModal';
@@ -68,7 +69,7 @@ export const hasProcessButtons = permissions => {
 const messages = defineMessages({
   markAsSpamWarning: {
     id: 'Expense.MarkAsSpamWarning',
-    defaultMessage: 'This will prevent the submitter account to post new expenses. Are you sure?',
+    defaultMessage: 'This will prevent the submitter account to post new expenses.',
   },
 });
 
@@ -139,6 +140,7 @@ const ProcessExpenseButtons = ({
   displaySecurityChecks,
   isViewingExpenseInHostContext,
   disabled,
+  LoggedInUser,
 }) => {
   const [confirmProcessExpenseAction, setConfirmProcessExpenseAction] = React.useState();
   const [showApproveExpenseModal, setShowApproveExpenseModal] = React.useState(false);
@@ -243,6 +245,20 @@ const ProcessExpenseButtons = ({
           buttonStyle="dangerSecondary"
           data-cy="spam-button"
           onClick={() => {
+            const isSubmitter = expense.createdByAccount.legacyId === LoggedInUser?.CollectiveId;
+
+            if (isSubmitter) {
+              toast({
+                variant: 'error',
+                message: intl.formatMessage({
+                  id: 'expense.spam.notAllowed',
+                  defaultMessage: "You can't mark your own expenses as spam",
+                }),
+              });
+
+              return;
+            }
+
             if (confirm(intl.formatMessage(messages.markAsSpamWarning))) {
               triggerAction('MARK_AS_SPAM');
             }
@@ -367,6 +383,9 @@ ProcessExpenseButtons.propTypes = {
         message: PropTypes.string,
       }),
     ),
+    createdByAccount: PropTypes.shape({
+      legacyId: PropTypes.number.isRequired,
+    }),
   }).isRequired,
   /** The account where the expense has been submitted */
   collective: PropTypes.object.isRequired,
@@ -385,6 +404,7 @@ ProcessExpenseButtons.propTypes = {
   displaySecurityChecks: PropTypes.bool,
   isViewingExpenseInHostContext: PropTypes.bool,
   disabled: PropTypes.bool,
+  LoggedInUser: PropTypes.object,
 };
 
 export const DEFAULT_PROCESS_EXPENSE_BTN_PROPS = {
@@ -398,4 +418,4 @@ ProcessExpenseButtons.defaultProps = {
   isViewingExpenseInHostContext: false,
 };
 
-export default ProcessExpenseButtons;
+export default withUser(ProcessExpenseButtons);

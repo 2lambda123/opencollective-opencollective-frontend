@@ -340,6 +340,7 @@ export const expensePageExpenseFieldsFragment = gql`
       name
       type
       imageUrl
+      legacyId
       ...AccountHoverCardFields
     }
     host {
@@ -737,6 +738,7 @@ export const expensesListFieldsFragment = gql`
       type
       slug
       name
+      legacyId
       ...AccountHoverCardFields
     }
   }

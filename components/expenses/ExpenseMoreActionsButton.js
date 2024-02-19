@@ -11,17 +11,19 @@ import { Pause as PauseIcon } from '@styled-icons/feather/Pause';
 import { Play as PlayIcon } from '@styled-icons/feather/Play';
 import { Trash2 as IconTrash } from '@styled-icons/feather/Trash2';
 import { useRouter } from 'next/router';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import styled from 'styled-components';
 import { margin } from 'styled-system';
 
 import expenseTypes from '../../lib/constants/expenseTypes';
 import useProcessExpense from '../../lib/expenses/useProcessExpense';
 import useClipboard from '../../lib/hooks/useClipboard';
+import useLoggedInUser from '../../lib/hooks/useLoggedInUser';
 import { getCollectivePageCanonicalURL, getCollectivePageRoute } from '../../lib/url-helpers';
 
 import PopupMenu from '../PopupMenu';
 import StyledButton from '../StyledButton';
+import { useToast } from '../ui/useToast';
 
 import ConfirmProcessExpenseModal from './ConfirmProcessExpenseModal';
 import ExpenseConfirmDeletion from './ExpenseConfirmDeletionModal';
@@ -78,6 +80,8 @@ const ExpenseMoreActionsButton = ({
   const [processModal, setProcessModal] = React.useState(false);
   const [hasDeleteConfirm, setDeleteConfirm] = React.useState(false);
   const { isCopied, copy } = useClipboard();
+  const { toast } = useToast();
+  const intl = useIntl();
 
   const router = useRouter();
   const permissions = expense?.permissions;
@@ -85,6 +89,8 @@ const ExpenseMoreActionsButton = ({
   const processExpense = useProcessExpense({
     expense,
   });
+
+  const { LoggedInUser } = useLoggedInUser();
 
   const showDeleteConfirmMoreActions = isOpen => {
     setDeleteConfirm(isOpen);
@@ -118,6 +124,20 @@ const ExpenseMoreActionsButton = ({
                 buttonStyle="dangerSecondary"
                 data-cy="spam-button"
                 onClick={async () => {
+                  const isSubmitter = expense.createdByAccount.legacyId === LoggedInUser?.CollectiveId;
+
+                  if (isSubmitter) {
+                    toast({
+                      variant: 'error',
+                      message: intl.formatMessage({
+                        id: 'expense.spam.notAllowed',
+                        defaultMessage: "You can't mark your own expenses as spam",
+                      }),
+                    });
+
+                    return;
+                  }
+
                   setProcessModal('MARK_AS_SPAM');
                   setOpen(false);
                 }}
@@ -273,6 +293,9 @@ ExpenseMoreActionsButton.propTypes = {
       parent: PropTypes.shape({
         slug: PropTypes.string.isRequired,
       }),
+    }),
+    createdByAccount: PropTypes.shape({
+      legacyId: PropTypes.number.isRequired,
     }),
   }),
   /** Called with an error if anything wrong happens */
