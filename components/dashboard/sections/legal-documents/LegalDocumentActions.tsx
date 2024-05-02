@@ -4,7 +4,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { downloadLegalDocument } from '../../../../lib/api';
 import { formatErrorMessage } from '../../../../lib/errors';
-import { Account, Host, LegalDocument, LegalDocumentRequestStatus } from '../../../../lib/graphql/types/v2/graphql';
+import type { Account, Host, LegalDocument } from '../../../../lib/graphql/types/v2/graphql';
+import { LegalDocumentRequestStatus } from '../../../../lib/graphql/types/v2/graphql';
 import { useTwoFactorAuthenticationPrompt } from '../../../../lib/two-factor-authentication/TwoFactorAuthenticationContext';
 
 import { useToast } from '../../../ui/useToast';
