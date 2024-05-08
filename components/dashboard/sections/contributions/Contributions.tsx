@@ -666,8 +666,6 @@ const Contributions = ({ accountSlug, direction, onlyExpectedFunds, includeHoste
               ) : (
                 <FormattedMessage id="IncomingContributions" defaultMessage="Incoming Contributions" />
               )
-            ) : onlyExpectedFunds ? (
-              <FormattedMessage id="ExpectedFunds.Outgoing" defaultMessage="Pending Contributions" />
             ) : (
               <FormattedMessage id="OutgoingContributions" defaultMessage="Outgoing Contributions" />
             )
@@ -688,11 +686,6 @@ const Contributions = ({ accountSlug, direction, onlyExpectedFunds, includeHoste
                   defaultMessage="Contributions to your account."
                 />
               )
-            ) : onlyExpectedFunds ? (
-              <FormattedMessage
-                id="ExpectedFunds.Outgoing"
-                defaultMessage="Pending Contributions to other Collectives"
-              />
             ) : (
               <FormattedMessage
                 id="OutgoingContributions.description"
