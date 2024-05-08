@@ -40,7 +40,7 @@ const confirmBtnMsgs = defineMessages({
 });
 
 export interface ConfirmationModalProps extends BaseModalProps {
-  title: string;
+  title: React.ReactNode;
   description?: React.ReactNode;
   children?: React.ReactNode;
   variant?: 'default' | 'destructive';
@@ -73,7 +73,7 @@ const ConfirmationModal = ({
   const handleClose = () => setOpen(false);
 
   const onCloseAutoFocus = e => {
-    if (onCloseFocusRef.current) {
+    if (onCloseFocusRef && onCloseFocusRef.current) {
       e.preventDefault();
       onCloseFocusRef.current.focus();
     }
