@@ -795,6 +795,8 @@ interface Account {
     Only return published updates.
     """
     onlyPublishedUpdates: Boolean = false
+    isDeleted: Boolean
+    isDraft: Boolean
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
@@ -2436,6 +2438,8 @@ type Host implements Account & AccountWithContributions {
     Only return published updates.
     """
     onlyPublishedUpdates: Boolean = false
+    isDeleted: Boolean
+    isDraft: Boolean
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
@@ -7552,6 +7556,8 @@ type Bot implements Account {
     Only return published updates.
     """
     onlyPublishedUpdates: Boolean = false
+    isDeleted: Boolean
+    isDraft: Boolean
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
@@ -8292,6 +8298,8 @@ type Collective implements Account & AccountWithHost & AccountWithContributions 
     Only return published updates.
     """
     onlyPublishedUpdates: Boolean = false
+    isDeleted: Boolean
+    isDraft: Boolean
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
@@ -9483,6 +9491,8 @@ type Event implements Account & AccountWithHost & AccountWithContributions & Acc
     Only return published updates.
     """
     onlyPublishedUpdates: Boolean = false
+    isDeleted: Boolean
+    isDraft: Boolean
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
@@ -10456,6 +10466,8 @@ type Individual implements Account {
     Only return published updates.
     """
     onlyPublishedUpdates: Boolean = false
+    isDeleted: Boolean
+    isDraft: Boolean
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
@@ -11402,6 +11414,8 @@ type Organization implements Account & AccountWithContributions {
     Only return published updates.
     """
     onlyPublishedUpdates: Boolean = false
+    isDeleted: Boolean
+    isDraft: Boolean
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
@@ -12244,6 +12258,8 @@ type Vendor implements Account & AccountWithContributions {
     Only return published updates.
     """
     onlyPublishedUpdates: Boolean = false
+    isDeleted: Boolean
+    isDraft: Boolean
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
@@ -15531,6 +15547,8 @@ type Fund implements Account & AccountWithHost & AccountWithContributions {
     Only return published updates.
     """
     onlyPublishedUpdates: Boolean = false
+    isDeleted: Boolean
+    isDraft: Boolean
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
@@ -16384,6 +16402,8 @@ type Project implements Account & AccountWithHost & AccountWithContributions & A
     Only return published updates.
     """
     onlyPublishedUpdates: Boolean = false
+    isDeleted: Boolean
+    isDraft: Boolean
     onlyChangelogUpdates: Boolean
     orderBy: UpdateChronologicalOrderInput! = { field: CREATED_AT, direction: DESC }
     searchTerm: String
